@@ -7,13 +7,32 @@ using namespace std;
 int main() 
 {
     Fl_Window *window = new Fl_Window(1600,800 , "SIMPLENEWTON");
-    window->color(FL_BLACK);
-    Fl_Input *input = new Fl_Input(50, 10, 200, 30, "Input:");
+    window->begin();
+    window->position(100, 100);
+    window->color(FL_YELLOW);
+
+    Fl_Choice *choice = new Fl_Choice(50, 10, 100, 30, "Rodzaj arytmetyki:");
+    choice->add("Rzeczywiste|Przedziałowe punktowe|Przedziałowe");
+    choice->callback(on_choice, NULL);
+    choice->value(0); 
+
+    Fl_Input *input_number_equations = new Fl_Input(400, 10, 200, 30, "Liczba równań:");
     Fl_Output *output = new Fl_Output(50, 100, 200, 30, "Output:");
     Fl_Output *output_it = new Fl_Output(50, 140, 200, 30, "Output:");
-    Fl_Button *btn1 = new Fl_Button(50, 50, 100, 40, "Button 1");
-    Fl_Widget* widgets[3] = { input, output, output_it };
-    btn1->callback(button_callback,widgets);
+    Fl_Button *btn_number_equations = new Fl_Button(50, 50, 100, 40, "Zapisz");
+    Fl_Input *input_x = new Fl_Input(50, 200, 200, 30, "x[i]:");
+    Fl_Button *btn_x = new Fl_Button(50, 250, 100, 40, "Zapisz x[i]");
+    Fl_Button *btn_calculate = new Fl_Button(50, 300, 100, 40, "Oblicz");
+    Fl_Box *box_i = new Fl_Box(50, 350, 200, 30, "i = 0");
+    Fl_Button *btn_reset = new Fl_Button(50, 400, 100, 40, "Reset");
+    Fl_Widget* widgets[5] = {input_number_equations, output, output_it, input_x, box_i,};
+
+    btn_number_equations->callback(get_number_equations,widgets);
+    btn_x->callback(save_x, widgets);
+    btn_calculate->callback(calculate, widgets);
+    btn_reset->callback(reset, widgets);
+
+
 
 
     mpreal::set_default_prec(80);
