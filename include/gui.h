@@ -11,11 +11,12 @@
 #include "functions.h"
 #include <iostream>
 
+void reset(Fl_Widget* widget, void* data);
 void calculate(Fl_Widget* widget, void*); 
 void get_number_equations(Fl_Widget* widget, void* data);
 void on_choice(Fl_Widget* widget, void* data);
 void save_x(Fl_Widget* widget, void* data);
-void reset(Fl_Widget* widget, void* data);
+
 
 #endif
 
