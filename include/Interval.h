@@ -101,7 +101,7 @@ public:
 	Interval operator*(const int &i);
 	Interval operator/(const Interval<T> &i);
 	Interval Projection();
-	Interval Opposite();
+	//Interval Opposite();
 	Interval Dual();
 	Interval Inverse();
 	T Mid();
@@ -324,7 +324,7 @@ inline Interval<T> Interval<T>::Projection() {
 	}
 	return r;
 }
-
+/*
 template<typename T>
 inline Interval<T> Interval<T>::Opposite() {
 	Interval<T> x(this->a, this->b);
@@ -332,7 +332,7 @@ inline Interval<T> Interval<T>::Opposite() {
 	r.a = -x.a;
 	r.b = -x.b;
 	return r;
-}
+}*/
 
 template<typename T>
 inline Interval<T> Interval<T>::Dual() {

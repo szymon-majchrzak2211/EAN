@@ -16,6 +16,13 @@ void reset(Fl_Widget* widget, void* data)
     Fl_Output* output_it = static_cast<Fl_Output*>(widgets[2]);
     Fl_Input* input_x = static_cast<Fl_Input*>(widgets[3]);
     Fl_Box* box_i = static_cast<Fl_Box*>(widgets[5]);
+    Fl_Input* inbut_xb = static_cast<Fl_Input*>(widgets[4]);
+    Fl_Input* output_st = static_cast<Fl_Input*>(widgets[6]);
+    Fl_Text_Display* output_display = static_cast<Fl_Text_Display*>(widgets[7]);
+    Fl_Text_Buffer* textbuf = output_display->buffer();
+
+    textbuf->text("");
+    output_st->value("");
 
     input_number_equations->value("");
     output->value("");
@@ -26,6 +33,7 @@ void reset(Fl_Widget* widget, void* data)
     number_eq = 0;
     index_x = 0;
     x_values_real.clear();
+    x_values_interval.clear();
 }
 
 void calculate(Fl_Widget* widget, void* data) 
@@ -39,6 +47,12 @@ void calculate(Fl_Widget* widget, void* data)
     Fl_Output* output = static_cast<Fl_Output*>(widgets[1]);
     Fl_Output* output_it =static_cast<Fl_Output*>(widgets[2]);
     Fl_Input* output_st = static_cast<Fl_Input*>(widgets[6]);
+    Fl_Text_Display* output_display = static_cast<Fl_Text_Display*>(widgets[7]);
+    Fl_Text_Buffer* textbuf = new Fl_Text_Buffer();
+    output_display->buffer(textbuf);
+    textbuf->text("");
+    std::ostringstream oss;
+    oss << std::setprecision(16);
     int it = 0;
     int st = 0;
     if (option == 0)
@@ -48,12 +62,16 @@ void calculate(Fl_Widget* widget, void* data)
             x_values_real,
             f, 
             df, 
-            mpreal(0.8), 
+            mpreal(1), 
             mpreal(1e-16), 
             150, 
             it, 
             st
         );
+        for (size_t i = 0; i < x_values_real.size(); ++i) {
+            oss << "x" << (i+1) << " = " << x_values_real[i] << "\n";
+        }
+        textbuf->text(oss.str().c_str());
     }
     else
     {
@@ -62,26 +80,20 @@ void calculate(Fl_Widget* widget, void* data)
             x_values_interval, 
             fi, 
             dfi, 
-            Interval<mpreal>(0.8, 0.8), 
+            Interval<mpreal>(1, 1), 
             mpreal(1e-16), 
             150, 
             it, 
             st
         );
+        for (size_t i = 0; i < x_values_interval.size(); ++i) {
+            oss << "x" << (i+1) << " = [" << x_values_interval[i].a << ", " << x_values_interval[i].b << "]\n"<<"szerokość x" << (i+1) << " = " 
+                << x_values_interval[i].GetWidth() << "\n";
+        }
+        textbuf->text(oss.str().c_str());
     }
-    /*string xs = x_values_real[0].toString();
-    const char* xc = xs.c_str();
-    string its = to_string(it);
-    const char* itc = its.c_str();
-    output->value(xc); 
-    output_it->value(itc);*/
-    string sts = to_string(st);
-    const char* stc = sts.c_str();
-    output_st->value(stc);
-    string its = to_string(it);
-    const char* itc = its.c_str();
-    output_it->value(itc);
-
+    output_st->value(to_string(st).c_str());
+    output_it->value(to_string(it).c_str());
 }
 
 void get_number_equations(Fl_Widget* widget, void* data) 
@@ -108,14 +120,17 @@ void on_choice(Fl_Widget* widget, void* data)
     option = choice->value();
     switch (option) {
         case 0:
+            reset(widget, data);
             input_x->label("x[i]:");
             inbut_xb->hide();
             break;
         case 1:
+            reset(widget, data);
             input_x->label("x[i]:");
             inbut_xb->hide();
             break;
         case 2:
+            reset(widget, data);
             input_x->label("x[i].a:");
             inbut_xb->show();
             break;

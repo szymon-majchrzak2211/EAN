@@ -8,8 +8,10 @@
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Box.H>
+#include <FL/Fl_Text_Display.H>
 #include "functions.h"
 #include <iostream>
+#include <sstream>
 
 void reset(Fl_Widget* widget, void* data);
 void calculate(Fl_Widget* widget, void*); 

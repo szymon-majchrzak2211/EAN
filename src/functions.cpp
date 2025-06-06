@@ -113,7 +113,7 @@ void NewtonSimpleInterval(
                     break;
                 } else {
                     Interval<mpreal> w = fi(i, n, x);
-                    x1[i] = x[i] - omega * w / d;
+                    x1[i] = x[i] - (omega * w / d);
                 }
             }
 
